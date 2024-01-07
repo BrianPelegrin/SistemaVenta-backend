@@ -1,12 +1,25 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using SistemaVenta.Application.Contracts.Persistence;
 
 namespace SistemaVenta.Application.Features.Categories.Queries.GetCategoryList
 {
     public class GetCategoryListQueryHandler : IRequestHandler<GetCategoryListQuery, IEnumerable<CategoryDTO>>
     {
-        public Task<IEnumerable<CategoryDTO>> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+
+        public GetCategoryListQueryHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<CategoryDTO>> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
         }
     }
 }

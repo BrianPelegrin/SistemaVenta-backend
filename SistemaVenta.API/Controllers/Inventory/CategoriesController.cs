@@ -1,34 +1,32 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.Application.Constants;
-using SistemaVenta.Application.Contracts.Persistence;
 using SistemaVenta.Application.Features.Categories.Commands.CreateCategory;
-using SistemaVenta.Domain.Entities.Inventory;
+using SistemaVenta.Application.Features.Categories.Commands.DeleteCategory;
+using SistemaVenta.Application.Features.Categories.Commands.UpdateCategory;
+using SistemaVenta.Application.Features.Categories.Queries.GetCategoryList;
+using SistemaVenta.Application.Models;
 
 namespace SistemaVenta.API.Controllers.Inventory
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
-    {
-        private readonly IAsyncRepository<Category> _categories;
+    {        
         private readonly IMediator _mediator;
 
-        public CategoriesController(IAsyncRepository<Category> categories, IMediator mediator)
-        {
-            _categories = categories;
+        public CategoriesController(IMediator mediator)
+        {            
             _mediator = mediator;
         }
 
         [HttpGet(Name = "GetCategories")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        [ProducesResponseType(StatusCodes.Status200OK)]        
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
         {
-            var categories = await _categories.GetAllAsync();
+            var categories = await _mediator.Send(new GetCategoryListQuery());
 
-            return categories.Count() > 0 ? Ok(categories) : NoContent();
+            return Ok(categories);
         }
 
         [HttpPost(Name = "CreateCategory")]
@@ -37,11 +35,31 @@ namespace SistemaVenta.API.Controllers.Inventory
         public async Task<ActionResult<int>> CreateCategory(CreateCategoryCommand category)
         {
 
-            var response = await _mediator.Send(category);
+            var id = await _mediator.Send(category);
 
-            return response != 0 ? Ok(Messages.CREATE_SUCCESS) : BadRequest(Messages.HAS_ERROR);
+            var response = new ApiResponse(Messages.CREATE_SUCCESS, category);
+
+            return id != 0 ? Created(Messages.CREATE_SUCCESS, response) : BadRequest(Messages.HAS_ERROR);
         }
 
+        [HttpPut(Name = "UpdateCategory")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]        
+        public async Task<ActionResult<int>> UpdateCategory(UpdateCategoryCommand category)
+        {
+
+            var id = await _mediator.Send(category);                        
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}",Name = "DeleteCategory")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> DeleteCategory(int id)
+        {
+            await _mediator.Send(new DeleteCategoryCommand(id));
+
+            return NoContent();
+        }
 
     }
 }
