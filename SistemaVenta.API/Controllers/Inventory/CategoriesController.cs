@@ -32,7 +32,7 @@ namespace SistemaVenta.API.Controllers.Inventory
         [HttpPost(Name = "CreateCategory")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateCategory(CreateCategoryCommand category)
+        public async Task<ActionResult<int>> CreateCategory([FromBody] CreateCategoryCommand category)
         {
 
             var id = await _mediator.Send(category);
@@ -44,7 +44,7 @@ namespace SistemaVenta.API.Controllers.Inventory
 
         [HttpPut(Name = "UpdateCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]        
-        public async Task<ActionResult<int>> UpdateCategory(UpdateCategoryCommand category)
+        public async Task<ActionResult<int>> UpdateCategory([FromBody] UpdateCategoryCommand category)
         {
 
             var id = await _mediator.Send(category);                        
@@ -54,7 +54,7 @@ namespace SistemaVenta.API.Controllers.Inventory
         [HttpDelete("{id:int}",Name = "DeleteCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> DeleteCategory(int id)
+        public async Task<ActionResult<int>> DeleteCategory([FromRoute] int id)
         {
             await _mediator.Send(new DeleteCategoryCommand(id));
 
