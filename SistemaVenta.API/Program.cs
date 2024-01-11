@@ -1,6 +1,6 @@
 using SistemaVenta.Application;
 using SistemaVenta.Infrastructure;
-
+using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(sw =>
+{
+    //sw.SwaggerDoc("Sistema", new OpenApiInfo { Title = "Sistema de Inventario", Version = "v1", Description = "Todos los derechos reservados por Brian Pelegrin" });
+});
 builder.Services.AddInfratructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 

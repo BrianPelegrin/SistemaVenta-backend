@@ -16,6 +16,9 @@ namespace SistemaVenta.Application.Contracts.Persistence
                                            bool DisableTracking = true);
 
         Task<T> GetByIdAsync(int id);
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> Predicate);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> Predicate);
+        Task<int> CountAsync();
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);

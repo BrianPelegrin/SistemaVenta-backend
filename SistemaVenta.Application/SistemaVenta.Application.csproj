@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Providers\**" />
+    <EmbeddedResource Remove="Features\Providers\**" />
+    <None Remove="Features\Providers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Features\Products\Commands\" />
     <Folder Include="Features\Products\Queries\" />
   </ItemGroup>

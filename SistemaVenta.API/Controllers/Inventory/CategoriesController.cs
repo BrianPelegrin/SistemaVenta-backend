@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.Application.Constants;
 using SistemaVenta.Application.Features.Categories.Commands.CreateCategory;
@@ -22,33 +23,37 @@ namespace SistemaVenta.API.Controllers.Inventory
 
         [HttpGet(Name = "GetCategories")]
         [ProducesResponseType(StatusCodes.Status200OK)]        
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
+        public async Task<ActionResult<ApiResponse<IEnumerable<CategoryDTO>>>> GetCategories()
         {
-            var categories = await _mediator.Send(new GetCategoryListQuery());
-
-            return Ok(categories);
+            var result = await _mediator.Send(new GetCategoryListQuery());
+            var response = new ApiResponse(Messages.QUERY_SUCCESS, result);
+            return Ok(response);
         }
 
         [HttpPost(Name = "CreateCategory")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateCategory([FromBody] CreateCategoryCommand category)
+        public async Task<ActionResult<ApiResponse>> CreateCategory([FromBody] CreateCategoryCommand category)
         {
 
             var id = await _mediator.Send(category);
 
-            var response = new ApiResponse(Messages.CREATE_SUCCESS, category);
+            object newCategory = new { Id = id, category.Name };
+            var response = new ApiResponse(Messages.CREATE_SUCCESS, newCategory);
 
-            return id != 0 ? Created(Messages.CREATE_SUCCESS, response) : BadRequest(Messages.HAS_ERROR);
+            return Created(Messages.CREATE_SUCCESS, response);
         }
 
         [HttpPut(Name = "UpdateCategory")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]        
-        public async Task<ActionResult<int>> UpdateCategory([FromBody] UpdateCategoryCommand category)
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ApiResponse>> UpdateCategory([FromBody] UpdateCategoryCommand category)
         {
 
-            var id = await _mediator.Send(category);                        
-            return NoContent();
+            var id = await _mediator.Send(category);
+            var response = new ApiResponse(Messages.UPDATE_SUCCESS, category);
+            return Accepted(response);
         }
 
         [HttpDelete("{id:int}",Name = "DeleteCategory")]

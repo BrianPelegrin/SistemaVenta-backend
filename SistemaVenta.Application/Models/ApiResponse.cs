@@ -11,4 +11,16 @@
         public object? Data { get; } = string.Empty;
 
     }
+
+    public class ApiResponse<T>
+    {
+        public ApiResponse(string message, T? data = default(T))
+        {
+            Message = message;
+            Data = data;
+        }
+        public string Message { get; } = string.Empty;
+        public T? Data { get; } = default(T);
+
+    }
 }

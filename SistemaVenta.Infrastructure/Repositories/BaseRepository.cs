@@ -87,10 +87,13 @@ namespace SistemaVenta.Infrastructure.Repositories
 
         }
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _dbContext.Set<T>().FindAsync(id);
-        }
+        public async Task<T> GetByIdAsync(int id) => await _dbContext.Set<T>().FindAsync(id);
+        
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate) => await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);       
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate) => await _dbContext.Set<T>().AnyAsync(predicate);
+        
+        public async Task<int> CountAsync() => await _dbContext.Set<T>().CountAsync();
 
         public async Task<T> AddAsync(T entity)
         {
@@ -111,6 +114,5 @@ namespace SistemaVenta.Infrastructure.Repositories
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
-
     }
 }
