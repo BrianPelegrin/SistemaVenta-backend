@@ -2,7 +2,7 @@
 
 namespace SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliersList
 {
-    public class GetSuppliersListQuery : IRequest<IEnumerable<SuppliersDTO>>
+    public class GetSuppliersListQuery : IRequest<IEnumerable<SupplierDTO>>
     {
 
     }

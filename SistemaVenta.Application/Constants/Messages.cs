@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SistemaVenta.Application.Constants
+﻿namespace SistemaVenta.Application.Constants
 {
     public static class Messages
     {
@@ -12,7 +6,7 @@ namespace SistemaVenta.Application.Constants
         public static string CREATE_SUCCESS = "Creado Exitosamente!";
         public static string UPDATE_SUCCESS = "Actualizado Exitosamente!";
         public static string DELETE_SUCCESS = "Eliminado Exitosamente!";        
-        public static string HAS_ERROR = "OCURRIO UN ERROR!";        
-       
+        public static string HAS_ERROR = "OCURRIO UN ERROR!";
+        public static string INVALID_ID = "El Id enviado no es valido";
     }
 }

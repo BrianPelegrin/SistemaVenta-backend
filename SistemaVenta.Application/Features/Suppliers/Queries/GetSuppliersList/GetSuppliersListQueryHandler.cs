@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliersList
 {
-    public class GetSuppliersListQueryHandler : IRequestHandler<GetSuppliersListQuery, IEnumerable<SuppliersDTO>>
+    public class GetSuppliersListQueryHandler : IRequestHandler<GetSuppliersListQuery, IEnumerable<SupplierDTO>>
     {
         private readonly ISupplierRepository _supplierRepository;
         private readonly IMapper _mapper;
@@ -19,11 +19,11 @@ namespace SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliersList
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<SuppliersDTO>> Handle(GetSuppliersListQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SupplierDTO>> Handle(GetSuppliersListQuery request, CancellationToken cancellationToken)
         {
             var suppliersList = await _supplierRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<SuppliersDTO>>(suppliersList);
+            return _mapper.Map<IEnumerable<SupplierDTO>>(suppliersList);
         }
     }
 }

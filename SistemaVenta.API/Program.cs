@@ -1,6 +1,5 @@
 using SistemaVenta.Application;
 using SistemaVenta.Infrastructure;
-using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +13,15 @@ builder.Services.AddSwaggerGen(sw =>
 });
 builder.Services.AddInfratructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddCors(cors =>
+{
+    cors.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -23,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

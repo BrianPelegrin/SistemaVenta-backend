@@ -1,5 +1,4 @@
-﻿using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.Application.Constants;
 using SistemaVenta.Application.Features.Categories.Commands.CreateCategory;

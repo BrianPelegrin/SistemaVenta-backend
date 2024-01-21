@@ -23,7 +23,7 @@ namespace SistemaVenta.API.Controllers.Inventory
 
         [HttpGet(Name = "GetSuppliersList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<SuppliersDTO>>> GetSuppliersList()
+        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSuppliersList()
         {
             var result = await _mediator.Send(new GetSuppliersListQuery());
             var response = new ApiResponse(Messages.QUERY_SUCCESS, result);
