@@ -6,6 +6,7 @@ using SistemaVenta.Application.Features.Suppliers.Commands.CreateProvider;
 using SistemaVenta.Application.Features.Suppliers.Commands.DeleteSupplier;
 using SistemaVenta.Application.Features.Suppliers.Commands.UpdateSupplier;
 using SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliersList;
+using SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliertById;
 using SistemaVenta.Application.Models;
 
 namespace SistemaVenta.API.Controllers.Inventory
@@ -27,6 +28,16 @@ namespace SistemaVenta.API.Controllers.Inventory
         {
             var result = await _mediator.Send(new GetSuppliersListQuery());
             var response = new ApiResponse(Messages.QUERY_SUCCESS, result);
+            return Ok(response);
+        }
+
+        [HttpGet("{id:int}",Name = "GetSupplierById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiResponse<SupplierDTO>>> GetSupplierById(int id)
+        {
+            var result = await _mediator.Send(new GetSupplierByIdQuery(id));
+            var response = new ApiResponse<SupplierDTO>(Messages.QUERY_SUCCESS, result);
             return Ok(response);
         }
 
