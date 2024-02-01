@@ -26,7 +26,8 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
 
             builder.HasOne(x => x.Product)
                    .WithMany(x => x.InventoryMovements)
-                   .HasForeignKey(x => x.ProductId);
+                   .HasForeignKey(x => x.ProductId)
+                   .OnDelete(DeleteBehavior.Restrict); ;
 
             //AUDITABLE PROPERTIES
 

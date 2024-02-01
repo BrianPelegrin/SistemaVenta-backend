@@ -22,6 +22,65 @@ namespace SistemaVenta.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("SistemaVenta.Domain.Common.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("PersonType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Persons", (string)null);
+
+                    b.HasDiscriminator<int>("PersonType").HasValue(0);
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("SistemaVenta.Domain.Common.State", b =>
                 {
                     b.Property<int>("Id")
@@ -58,21 +117,21 @@ namespace SistemaVenta.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 209, DateTimeKind.Local).AddTicks(5026),
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 621, DateTimeKind.Local).AddTicks(7733),
                             CreatedBy = "Admin",
                             Name = "Activo"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 209, DateTimeKind.Local).AddTicks(5028),
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 621, DateTimeKind.Local).AddTicks(7737),
                             CreatedBy = "Admin",
                             Name = "Inactivo"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 209, DateTimeKind.Local).AddTicks(5054),
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 621, DateTimeKind.Local).AddTicks(7739),
                             CreatedBy = "Admin",
                             Name = "Agotado"
                         });
@@ -117,7 +176,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 217, DateTimeKind.Local).AddTicks(1905),
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 622, DateTimeKind.Local).AddTicks(2082),
                             CreatedBy = "Admin",
                             Name = "Bebidas Alcoholicas",
                             StateId = 1
@@ -125,7 +184,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 217, DateTimeKind.Local).AddTicks(1907),
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 622, DateTimeKind.Local).AddTicks(2086),
                             CreatedBy = "Admin",
                             Name = "Embutidos",
                             StateId = 1
@@ -264,7 +323,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("SistemaVenta.Domain.Entities.Inventory.Supplier", b =>
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -280,19 +339,18 @@ namespace SistemaVenta.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("StateId")
                         .HasColumnType("int");
@@ -306,25 +364,124 @@ namespace SistemaVenta.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Invoices", (string)null);
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.InvoiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("ITBIS")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InvoiceDetails", (string)null);
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Inventory.Supplier", b =>
+                {
+                    b.HasBaseType("SistemaVenta.Domain.Common.Person");
+
+                    b.HasDiscriminator().HasValue(2);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 218, DateTimeKind.Local).AddTicks(1406),
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 623, DateTimeKind.Local).AddTicks(4131),
                             CreatedBy = "Admin",
+                            Email = "supplidor@brugal.com.do",
                             Name = "Brugal",
+                            PersonType = 2,
                             PhoneNumber = "000-000-0000",
                             StateId = 1
                         },
                         new
                         {
-                            Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 6, 20, 31, 41, 218, DateTimeKind.Local).AddTicks(1408),
+                            Id = 4,
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 623, DateTimeKind.Local).AddTicks(4135),
                             CreatedBy = "Admin",
+                            Email = "supplidor@induveca.com.do",
                             Name = "Induveca",
+                            PersonType = 2,
                             PhoneNumber = "000-000-0000",
+                            StateId = 1
+                        });
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.Customer", b =>
+                {
+                    b.HasBaseType("SistemaVenta.Domain.Common.Person");
+
+                    b.Property<string>("AccountState")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(1);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 623, DateTimeKind.Local).AddTicks(6866),
+                            CreatedBy = "Admin",
+                            Email = "pedrito@hotmail.com",
+                            Name = "Pedro Navaja",
+                            PersonType = 1,
+                            PhoneNumber = "200-000-0000",
+                            StateId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 2, 1, 0, 44, 36, 623, DateTimeKind.Local).AddTicks(6869),
+                            CreatedBy = "Admin",
+                            Email = "juanito.ali@gmail.com",
+                            Name = "Juanito Alimaña",
+                            PersonType = 1,
+                            PhoneNumber = "100-000-0000",
                             StateId = 1
                         });
                 });
@@ -334,7 +491,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                     b.HasOne("SistemaVenta.Domain.Entities.Inventory.Product", "Product")
                         .WithMany("InventoryMovements")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -345,7 +502,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                     b.HasOne("SistemaVenta.Domain.Entities.Inventory.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SistemaVenta.Domain.Common.State", "State")
@@ -357,7 +514,7 @@ namespace SistemaVenta.Infrastructure.Migrations
                     b.HasOne("SistemaVenta.Domain.Entities.Inventory.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -365,6 +522,36 @@ namespace SistemaVenta.Infrastructure.Migrations
                     b.Navigation("State");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.Invoice", b =>
+                {
+                    b.HasOne("SistemaVenta.Domain.Entities.Sales.Customer", "Customer")
+                        .WithMany("Invoices")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.InvoiceDetail", b =>
+                {
+                    b.HasOne("SistemaVenta.Domain.Entities.Sales.Invoice", "Invoice")
+                        .WithMany("InvoiceDetails")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SistemaVenta.Domain.Entities.Inventory.Product", "Producto")
+                        .WithMany("InvoiceDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("SistemaVenta.Domain.Entities.Inventory.Category", b =>
@@ -375,11 +562,23 @@ namespace SistemaVenta.Infrastructure.Migrations
             modelBuilder.Entity("SistemaVenta.Domain.Entities.Inventory.Product", b =>
                 {
                     b.Navigation("InventoryMovements");
+
+                    b.Navigation("InvoiceDetails");
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.Invoice", b =>
+                {
+                    b.Navigation("InvoiceDetails");
                 });
 
             modelBuilder.Entity("SistemaVenta.Domain.Entities.Inventory.Supplier", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SistemaVenta.Domain.Entities.Sales.Customer", b =>
+                {
+                    b.Navigation("Invoices");
                 });
 #pragma warning restore 612, 618
         }

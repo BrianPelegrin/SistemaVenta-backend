@@ -1,4 +1,5 @@
 ﻿using SistemaVenta.Domain.Common;
+using SistemaVenta.Domain.Entities.Sales;
 
 namespace SistemaVenta.Domain.Entities.Inventory
 {
@@ -21,12 +22,13 @@ namespace SistemaVenta.Domain.Entities.Inventory
         public int? StorageId { get; set; }
         public int? SupplierId { get; set; }
         public int CategoryId { get; set; }
-        public int StateId { get; set; }
         public int? UnitMeasurementId { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Supplier Supplier { get; set; }
-        public virtual State State { get; set; }   
-        public virtual ICollection<InventoryMovement> InventoryMovements { get; set; }
+        public virtual State State { get; set; }
+
+        public virtual ICollection<InvoiceDetail>? InvoiceDetails { get; set; }
+        public virtual ICollection<InventoryMovement>? InventoryMovements { get; set; }
     }
 }

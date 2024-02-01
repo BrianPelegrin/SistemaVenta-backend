@@ -53,11 +53,13 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
             
             builder.HasOne(x => x.Supplier)
                    .WithMany(x => x.Products)
-                   .HasForeignKey(x => x.SupplierId);
+                   .HasForeignKey(x => x.SupplierId)
+                   .OnDelete(DeleteBehavior.Restrict); ;
 
             builder.HasMany(x => x.InventoryMovements)
                    .WithOne(x => x.Product)
-                   .HasForeignKey(x => x.ProductId);
+                   .HasForeignKey(x => x.ProductId)
+                   .OnDelete(DeleteBehavior.Restrict); ;
 
             //AUDITABLE PROPERTIES
 

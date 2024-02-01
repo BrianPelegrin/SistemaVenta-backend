@@ -2,15 +2,13 @@
 
 namespace SistemaVenta.Domain.Entities.Inventory
 {
-    public class Supplier : BaseEntity
+    public class Supplier : Person
     {
         public Supplier()
         {
             Products = new HashSet<Product>();
-        }
-        public string Name { get; set; } = string.Empty;
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }      
+            this.PersonType = Enums.PersonEnum.Supplier;
+        }        
 
         public virtual ICollection<Product> Products { get; set; }
     }
