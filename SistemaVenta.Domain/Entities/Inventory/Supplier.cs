@@ -6,10 +6,10 @@ namespace SistemaVenta.Domain.Entities.Inventory
     {
         public Supplier()
         {
-            Products = new HashSet<Product>();
+            Lots = new HashSet<Lot>();
             this.PersonType = Enums.PersonEnum.Supplier;
         }        
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Lot> Lots { get; set; }
     }
 }

@@ -14,9 +14,10 @@ namespace SistemaVenta.Application.Features.Products.Queries.GetProductList
         public int Stock { get; set; }
         public int MinimalStock { get; set; }
         public string Image { get; set; } = string.Empty;
+        public int CategoryId { get; set; }
+        public int? UnitMeasurementId { get; set; }
 
-        public virtual CategoryDTO Category { get; set; }
-        public virtual SupplierDTO Supplier { get; set; }
+        public virtual CategoryDTO? Category { get; set; }
         //public virtual StateDTO State { get; set; }
     }
 }

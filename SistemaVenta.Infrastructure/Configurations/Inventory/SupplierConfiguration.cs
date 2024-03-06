@@ -10,10 +10,10 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
         public void Configure(EntityTypeBuilder<Supplier> builder)
         {
 
-            builder.HasMany(x => x.Products)
+            builder.HasMany(x => x.Lots)
                    .WithOne(x => x.Supplier)
                    .HasForeignKey(x => x.SupplierId)
-                   .OnDelete(DeleteBehavior.Restrict); ;
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasData(
 

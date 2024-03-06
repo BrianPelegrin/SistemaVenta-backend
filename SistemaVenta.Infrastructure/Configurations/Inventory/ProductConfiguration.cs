@@ -34,14 +34,7 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
                    .IsRequired()
                    .HasPrecision(18,2);
 
-            builder.Property(x => x.BarCode)
-                   .IsRequired(false)
-                   .HasMaxLength(13);
-
             builder.Property(x => x.CategoryId)
-                   .IsRequired();
-
-            builder.Property(x => x.SupplierId)
                    .IsRequired();
 
             builder.Property(x => x.StateId)
@@ -51,9 +44,9 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
                    .WithMany(x => x.Products)
                    .HasForeignKey(x => x.CategoryId);
             
-            builder.HasOne(x => x.Supplier)
-                   .WithMany(x => x.Products)
-                   .HasForeignKey(x => x.SupplierId)
+            builder.HasMany(x => x.Lots)
+                   .WithOne(x => x.Product)
+                   .HasForeignKey(x => x.ProductId)
                    .OnDelete(DeleteBehavior.Restrict); ;
 
             builder.HasMany(x => x.InventoryMovements)

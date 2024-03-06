@@ -19,12 +19,11 @@ namespace SistemaVenta.Application.Features.Products.Commands.CreateProduct
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            bool exist = await _productRepository.AnyAsync(P=> P.Name.Equals(request.Name) || 
-                                                               P.BarCode.Equals(request.BarCode));
+            bool exist = await _productRepository.AnyAsync(P=> P.Name.Equals(request.Name));
 
             if (exist)
             {
-                throw new AlreadyExistException($"{request.Name} o {request.BarCode}");
+                throw new AlreadyExistException(request.Name);
             }
 
             var newProduct = _mapper.Map<Product>(request);

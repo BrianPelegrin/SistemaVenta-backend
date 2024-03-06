@@ -10,7 +10,8 @@ using SistemaVenta.Application.Models;
 
 namespace SistemaVenta.API.Controllers.Inventory
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/inventory/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -48,7 +49,6 @@ namespace SistemaVenta.API.Controllers.Inventory
                 newProduct.SalePrice,
                 newProduct.PurchasePrice,
                 newProduct.Stock,
-                newProduct.BarCode,
             };
 
             var response = new ApiResponse(Messages.CREATE_SUCCESS, savedProduc);

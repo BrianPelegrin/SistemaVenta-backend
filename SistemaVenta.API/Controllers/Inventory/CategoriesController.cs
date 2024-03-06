@@ -9,7 +9,8 @@ using SistemaVenta.Application.Models;
 
 namespace SistemaVenta.API.Controllers.Inventory
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/inventory/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {        

@@ -26,7 +26,6 @@ namespace SistemaVenta.Application.Features.Products.Queries.GetProductList
 
             var productsList = await _productRepository.GetAllAsync(IncludesProperties: new List<Expression<Func<Product, object>>>
                                                                     {
-                                                                        x=>x.Supplier,
                                                                         x=>x.Category,
                                                                     });
             
