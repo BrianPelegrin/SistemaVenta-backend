@@ -12,6 +12,10 @@ namespace SistemaVenta.Application.Features.Products.Commands.UpdateProduct
                 .MaximumLength(50)
                 .MinimumLength(2);
 
+            RuleFor(p => p.BarCode)
+                .NotNull()
+                .NotEmpty();
+
             RuleFor(p => p.SalePrice)
                 .NotNull()
                 .NotEmpty();

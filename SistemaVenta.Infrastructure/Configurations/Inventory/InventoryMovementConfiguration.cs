@@ -13,13 +13,16 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
             builder.HasKey(x=>x.Id);
 
             builder.Property(x => x.NewValue)
-                   .IsRequired();
-            
+                   .IsRequired()
+                   .HasPrecision(18, 2);
+
             builder.Property(x => x.OldValue)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasPrecision(18, 2);
 
             builder.Property(x => x.AffectedQuantity)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasPrecision(18, 2);
 
             builder.Property(x => x.ProductId)
                    .IsRequired();

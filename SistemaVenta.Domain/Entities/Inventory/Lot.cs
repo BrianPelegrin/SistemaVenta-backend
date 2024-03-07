@@ -5,11 +5,10 @@ namespace SistemaVenta.Domain.Entities.Inventory
     public class Lot:BaseEntity
     {
         public string LotNumber { get; set; } = string.Empty;
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
         public DateTime? ProductionDate { get; set; }
-        public string? BarCode { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Cost { get; set; }
         public int? StorageId { get; set; }
         public int ProductId { get; set; }
         public int? SupplierId { get; set; }

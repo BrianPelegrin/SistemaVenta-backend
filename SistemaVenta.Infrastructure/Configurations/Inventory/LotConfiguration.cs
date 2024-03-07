@@ -14,31 +14,29 @@ namespace SistemaVenta.Infrastructure.Configurations.Inventory
                    .HasMaxLength(200)
                    .IsRequired();
 
-            builder.Property(x => x.BarCode)
-                   .HasMaxLength(100);
-
             builder.Property(x => x.Quantity)
+                   .HasPrecision(18, 2)
                   .IsRequired();
             
             builder.Property(x => x.ExpirationDate)
-                  .IsRequired();
+                  .IsRequired(false);
 
             builder.Property(x => x.ProductionDate)
                   .IsRequired(false);
 
-            builder.Property(x => x.Price)
+            builder.Property(x => x.Cost)
                    .IsRequired()
                    .HasPrecision(18, 2);
 
             builder.HasOne(x=>x.Supplier)
                 .WithMany(x=>x.Lots)
                 .HasForeignKey(x=>x.SupplierId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x=>x.Product)
                 .WithMany(x=>x.Lots)
                 .HasForeignKey(x=>x.ProductId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             //AUDITABLE PROPERTIES
 
