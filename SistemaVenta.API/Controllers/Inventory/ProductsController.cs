@@ -5,6 +5,7 @@ using SistemaVenta.Application.Constants;
 using SistemaVenta.Application.Features.Products.Commands.CreateProduct;
 using SistemaVenta.Application.Features.Products.Commands.DeleteProduct;
 using SistemaVenta.Application.Features.Products.Commands.UpdateProduct;
+using SistemaVenta.Application.Features.Products.Queries.GetProductById;
 using SistemaVenta.Application.Features.Products.Queries.GetProductList;
 using SistemaVenta.Application.Models;
 
@@ -29,6 +30,17 @@ namespace SistemaVenta.API.Controllers.Inventory
             var productList = await _mediator.Send(new GetProductListQuery());
 
             var response = new ApiResponse<IEnumerable<ProductDTO>>(Messages.QUERY_SUCCESS, productList);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{productId:int}",Name = "GetProductById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<ProductDTO>>> GetProductById(int productId)
+        {
+            var product = await _mediator.Send(new GetProductByIdQuery(productId));
+
+            var response = new ApiResponse<ProductDTO>(Messages.QUERY_SUCCESS, product);
 
             return Ok(response);
         }
