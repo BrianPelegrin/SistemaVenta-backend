@@ -5,6 +5,7 @@ using SistemaVenta.Application.Features.Categories.Commands.CreateCategory;
 using SistemaVenta.Application.Features.Categories.Commands.DeleteCategory;
 using SistemaVenta.Application.Features.Categories.Commands.UpdateCategory;
 using SistemaVenta.Application.Features.Categories.Queries.GetCategoryList;
+using SistemaVenta.Application.Features.Suppliers.Queries.GetSuppliertById;
 using SistemaVenta.Application.Models;
 
 namespace SistemaVenta.API.Controllers.Inventory
@@ -26,6 +27,15 @@ namespace SistemaVenta.API.Controllers.Inventory
         public async Task<ActionResult<ApiResponse<IEnumerable<CategoryDTO>>>> GetCategories()
         {
             var result = await _mediator.Send(new GetCategoryListQuery());
+            var response = new ApiResponse(Messages.QUERY_SUCCESS, result);
+            return Ok(response);
+        }
+        
+        [HttpGet("{id:int}",Name = "GetCategoryById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]        
+        public async Task<ActionResult<ApiResponse<CategoryDTO>>> GetCategoryById(int id)
+        {
+            var result = await _mediator.Send(new GetSupplierByIdQuery(id));
             var response = new ApiResponse(Messages.QUERY_SUCCESS, result);
             return Ok(response);
         }

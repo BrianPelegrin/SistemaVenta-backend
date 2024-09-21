@@ -18,7 +18,7 @@ namespace SistemaVenta.Application.Features.Categories.Commands.CreateCategory
 
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var exist = await _categoryRepository.AnyAsync(x => x.Name.Equals(request.Name));
+            var exist = await _categoryRepository.AnyAsync(x => x.Name.ToLower().Trim().Equals(request.Name.ToLower().Trim()));
             if (exist)
             {
                 throw new AlreadyExistException(request.Name);
