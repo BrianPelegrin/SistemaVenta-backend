@@ -24,4 +24,8 @@
     <ProjectReference Include="..\SistemaVenta.Domain\SistemaVenta.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Lots\Commands\DeleteLot\" />
+  </ItemGroup>
+
 </Project>

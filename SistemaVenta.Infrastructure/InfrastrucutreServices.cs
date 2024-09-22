@@ -20,6 +20,7 @@ namespace SistemaVenta.Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ILotRepository, LotRepository>();
 
             return services;
         }

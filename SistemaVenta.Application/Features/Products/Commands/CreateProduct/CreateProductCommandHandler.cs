@@ -19,7 +19,7 @@ namespace SistemaVenta.Application.Features.Products.Commands.CreateProduct
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            bool exist = await _productRepository.AnyAsync(P=> P.Name.Equals(request.Name));
+            bool exist = await _productRepository.AnyAsync(P=> P.Name.ToLower().Trim().Equals(request.Name.ToLower().Trim()));
 
             if (exist)
             {

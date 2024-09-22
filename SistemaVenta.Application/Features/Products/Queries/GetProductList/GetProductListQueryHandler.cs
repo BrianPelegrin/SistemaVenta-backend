@@ -19,15 +19,13 @@ namespace SistemaVenta.Application.Features.Products.Queries.GetProductList
 
         public async Task<IEnumerable<ProductDTO>> Handle(GetProductListQuery request, CancellationToken cancellationToken)
         {
-            List<Expression<Func<Product, object>>> IncludesProperties = new List<Expression<Func<Product, object>>>
-            {
-                
-            };
-
-            var productsList = await _productRepository.GetAllAsync(IncludesProperties: new List<Expression<Func<Product, object>>>
-                                                                    {
-                                                                        x=>x.Category,
-                                                                    });
+            var productsList = await _productRepository.GetAllAsync(
+                IncludesProperties: new List<Expression<Func<Product, object>>>
+                {
+                    x=>x.Category,
+                },
+                DisableTracking:true                
+            );
             
 
             return _mapper.Map<IEnumerable<ProductDTO>>(productsList);
